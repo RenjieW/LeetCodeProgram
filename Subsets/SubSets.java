@@ -1,28 +1,23 @@
 import java.util.*;
 
 class Solution {
-    List<List<Integer>> output = new ArrayList();
-    int n, k;
-
-    public void backtrack(int first, ArrayList<Integer> curr, int[] nums) {
-    // if the combination is done
+    private void backtrack(List<List<Integer>> output, int[] nums, ArrayList<Integer> curr, int first, int k, int n) {
         if (curr.size() == k)
             output.add(new ArrayList(curr));
 
         for (int i = first; i < n; ++i) {
-      // add i into the current combination
             curr.add(nums[i]);
-      // use next integers to complete the combination
-            backtrack(i + 1, curr, nums);
-      // backtrack
+            backtrack(output, nums, curr, i+1, k, n);
             curr.remove(curr.size() - 1);
         }
     }
 
     public List<List<Integer>> subsets(int[] nums) {
-        n = nums.length;
+        List<List<Integer>> output = new ArrayList<List<Integer>>();
+        int n = nums.length;
+        int k = 0;
         for (k = 0; k < n + 1; ++k) {
-            backtrack(0, new ArrayList<Integer>(), nums);
+            backtrack(output, nums, new ArrayList<Integer>(), 0, k, n);
         }
         return output;
     }
